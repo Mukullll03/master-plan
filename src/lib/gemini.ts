@@ -1,6 +1,6 @@
 import { GoogleGenAI, Modality } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: "AIzaSyDEa4OFmXeMHpXkChwXSnJvO4rrStYvKZE" });
+const ai = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
 export async function generateText(prompt: string, systemInstruction: string, base64Image?: string, mimeType?: string) {
   const parts: any[] = [{ text: prompt }];
