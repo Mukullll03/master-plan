@@ -1,6 +1,11 @@
 import { GoogleGenAI, Modality } from "@google/genai";
 
-const ai = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
+// 1. Fix the class name to 'GoogleGenAI' 
+// 2. Wrap the API key in an options object `{ apiKey: ... }`
+// 3. Check for process.env.GEMINI_API_KEY since you defined it in vite.config.ts
+const ai = new GoogleGenAI({ 
+  apiKey: import.meta.env.VITE_GEMINI_API_KEY || (process.env as any).GEMINI_API_KEY 
+});
 
 export async function generateText(prompt: string, systemInstruction: string, base64Image?: string, mimeType?: string) {
   const parts: any[] = [{ text: prompt }];
@@ -15,7 +20,7 @@ export async function generateText(prompt: string, systemInstruction: string, ba
   }
 
   const response = await ai.models.generateContent({
-    model: "gemini-3-flash-preview",
+    model: "gemini-3-flash-preview", // Note: Ensure you have access to this preview model
     contents: { parts },
     config: {
       systemInstruction: systemInstruction,
